@@ -10,7 +10,7 @@ import os
 DATEFMT = '{year:d}-{month:02d}-{date:02d}'
 TODAY = date.today()
 ALLCATEGORIES = ['Food', 'Entertainment', 'Travel', 'Utilities',
-                 'Groceries', 'Rent']
+                 'Groceries', 'Rent', 'Family']
 ALLYEARS = [2019, 2020]
 NOTFOUNDEXP={'doc_id': '', 'name': 'Not Found'}
 

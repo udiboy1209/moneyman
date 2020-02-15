@@ -55,6 +55,10 @@ body {
   color: green;
   border-bottom-color: green;
 }
+.expense-category.family {
+  color: orange;
+  border-bottom-color: orange;
+}
 
 input {
   font-family: "Montserrat", sans-serif;
