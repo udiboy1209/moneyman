@@ -1,0 +1,26 @@
+{% extends "layout.html" %}
+{% block head %}
+  <title>{% block title %}{% endblock %} - Expense Manager</title>
+{% endblock %}
+{% block body %}
+  <div class="container">
+    <nav class="navbar">
+      <div class="row">
+        <div class="one columns navitem">
+          <a href="/">Home</a>
+        </div>
+        <div class="two columns navitem">
+          <a href="/new">Add New</a>
+        </div>
+        <div class="five columns navitem">&nbsp;</div>
+        <div class="four columns navitem">
+          <a href="/logout">User: {{ g.user.username }}</a>
+        </div>
+      </div>
+    </nav>
+
+    {%block content %}{% endblock %}
+  </div>
+
+  {%block scripts %}{% endblock %}
+{% endblock %}

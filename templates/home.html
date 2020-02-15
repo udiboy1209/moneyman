@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
+{% block content %}
+  <form action="/" method="GET" id="filterForm">
+    <div class="row">
+      <div class="twelve columns">
+        <label for="yearFilter">Name</label>
+        <input type="text" class="u-full-width" id="nameFilter" name="name">
+      </div>
+    </div>
+    <div class="row">
+      <div class="three columns">
+        <label for="yearFilter">Year</label>
+        <select class="u-full-width" id="yearFilter" name="year">
+          <option value="">None</option>
+          {% for y in allyears|sort|reverse %}
+            <option value="{{ y }}">{{ y }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="three columns">
+        <label for="monthFilter">Month</label>
+        <select class="u-full-width" id="monthFilter" name="month">
+          <option value="">None</option>
+          {% for i in range(1,12) %}
+            <option value="{{ i }}">{{ i|monthname }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="three columns">
+        <label for="categoryFilter">Category</label>
+        <select class="u-full-width" id="categoryFilter" name="category">
+          <option value="">None</option>
+          {% for c in allcategories %}
+            <option value="{{ c }}">{{ c }}</option>
+          {% endfor %}
+        </select>
+      </div>
+    </div>
+    <div class="row">
+      <div class="eight columns">&nbsp;</div>
+      <div class="two columns">
+        <input type="button" onclick="this.form.reset()" value="reset"
+          class="u-full-width">
+        </input>
+      </div>
+      <div class="two columns">
+        <input type="submit" value="filter"
+          class="u-full-width button-primary">
+        </input>
+      </div>
+    </div>
+  </form>
+
+  <table class="expense-table">
+    <thead>
+      <tr><th>Date</th><th>Name</th><th>Category</th><th>Amount</th><tr>
+    </thead>
+    <tbody>
+      <tr id="total">
+        <td>&nbsp;</td>
+        <td class="expense-name"><b>Total</b></td>
+        <td>&nbsp;</td>
+        <td><em>{{ g.user.currsym }}{{ total|currency }}</em></td>
+      </tr>
+      {% for datestr,expgroup in expenses|groupby('datestr')|reverse %}
+        <tr class="highlight">
+          <td colspan="4"><b>{{ datestr }}</b></td>
+        </tr>
+        {% for exp in expgroup %}
+          <tr id="{{ exp.doc_id }}" onclick="opensingle(this.id)">
+            <td>&nbsp;</td>
+            <td class="expense-name"><b>{{ exp.name }}</b></td>
+            <td class="expense-category {{ exp.category|lower }}">{{ exp.category }}</td>
+            <td><em>{{ g.user.currsym }}{{ exp.amount|currency }}</em></td>
+          </tr>
+        {% endfor %}
+      {% endfor %}
+    </tbody>
+  </table>
+
+{% endblock %}
+{% block scripts %}
+  <script type="text/javascript">
+    var urlParams = location.search.substr(1).split("&")
+    for(var param in urlParams) {
+      var kv = urlParams[param].split("=")
+      if (kv[1] !== "") {
+        var sel = document.getElementById(kv[0]+"Filter")
+        if (sel)
+          sel.value = kv[1]
+      }
+    }
+
+    function opensingle(id) {
+      document.location = "/single/"+id
+    }
+  </script>
+{% endblock %}

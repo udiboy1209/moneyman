@@ -1,0 +1,87 @@
+body {
+  font-family: 'Montserrat', sans-serif;
+}
+
+.navbar {
+  border-top: solid 1px #aaa;
+  border-bottom: solid 1px #aaa;
+  margin-bottom: 24px;
+}
+
+.navbar .navitem {
+  padding-bottom: 2%;
+  padding-top: 2%;
+}
+
+.navitem a {
+  color: inherit;
+  text-decoration: inherit;
+}
+
+.navbar .navitem:hover {
+  color: lightcoral;
+}
+
+.expense-table {
+  width: 100%;
+}
+
+.expense-table tr.highlight td {
+  color: grey;
+  border-bottom: 2px solid darkgrey;
+}
+
+.expense-name {
+  min-width: 50%;
+}
+
+.expense-category.food {
+  color: red;
+  border-bottom-color: red;
+}
+.expense-category.entertainment {
+  color: blue;
+  border-bottom-color: blue;
+}
+.expense-category.travel {
+  color: purple;
+  border-bottom-color: purple;
+}
+.expense-category.utilities {
+  color: darkcyan;
+  border-bottom-color: darkcyan;
+}
+.expense-category.groceries {
+  color: green;
+  border-bottom-color: green;
+}
+
+input {
+  font-family: "Montserrat", sans-serif;
+}
+
+input[type="date"] {
+  height: 38px;
+  padding: 6px 10px;
+  background-color: #fff;
+  border: 1px solid #D1D1D1;
+  border-radius: 4px;
+  box-shadow: none;
+  box-sizing: border-box;
+}
+
+.flash {
+  padding: 10px;
+  border: 1px solid #D1D1D1;
+  border-radius: 4px;
+  font-weight: bold;
+}
+.flash.flash-error {
+  background-color: lightpink;
+  color: red;
+}
+.flash.flash-success {
+  background-color: lightgreen;
+  color: green;
+}
+

@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block title %}Expense {{ exp.doc_id }} - {{ exp.name }}{% endblock %}
+{% block content %}{% if not error %}
+<table>
+  <tr>
+    <th>ID</th>
+    <td>{{ exp.doc_id }}</td>
+  </tr>
+  <tr>
+    <th>Name</th>
+    <td>{{ exp.name }}</td>
+  </tr>
+  <tr>
+    <th>Amount</th>
+    <td>{{ g.user.currsym }}{{ exp.amount }}</td>
+  </tr>
+  <tr>
+    <th>Category</th>
+    <td class="expense-category {{ exp.category|lower }}">{{ exp.category }}</td>
+  </tr>
+  <tr>
+    <th>Date</th>
+    <td>{{ exp.datestr }}</td>
+  </tr>
+  <tr>
+    <th>Timestamp</th>
+    <td>{{ exp.ts }}</td>
+  </tr>
+</table>
+<div class="row">
+  <div class="column">
+    <div class="eight columns">&nbsp;</div>
+    <div class="two columns"><button class="button" onclick="confirmDelete()">Delete</button></div>
+    <div class="two columns"><a class="button button-primary" href="/update/{{ exp.doc_id }}">Edit</a></div>
+  </div>
+</div>
+
+<form action="/delete" method="POST" id="deleteForm">
+  <input type="hidden" name="doc_id" value="{{ exp.doc_id }}"></input>
+</form>
+{% endif %}{% endblock %}
+{% block scripts %}
+  <script type="text/javascript">
+    function confirmDelete() {
+      if(confirm("Are you sure you want to DELETE?")) {
+        document.getElementById("deleteForm").submit()
+      }
+    }
+  </script>
+{% endblock %}

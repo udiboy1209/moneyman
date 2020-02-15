@@ -1,0 +1,36 @@
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+  <div id="flash-container" class="row">
+    {% for category, message in messages %}
+    <div column="twelve columns">
+      <p class="flash flash-{{ category }}">{{ category|upper}}: {{message }}</p>
+    </div>
+    {% endfor %}
+  </div>
+
+  <script type="text/javascript">
+    function fadeout(target, initial=true) {
+      console.log(target);
+      if (initial) {
+        return setTimeout(function() {
+          fadeout(target, false);
+        }, 2000);
+      }
+
+      var fadeanim = setInterval(function() {
+        if (!target.style.opacity) {
+          target.style.opacity = 1;
+        }
+        if (target.style.opacity > 0) {
+          target.style.opacity -= 0.05;
+        } else {
+          target.parentElement.removeChild(target);
+          clearInterval(fadeanim);
+        }
+      }, 50)
+    }
+    fadeout(document.getElementById('flash-container'))
+  </script>
+  {% endif %}
+{% endwith %}
+

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link 
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.css"
+    integrity="sha256-ECB9bbROLGm8wOoEbHcHRxlHgzGqYpDtNTgDTyDz0wg="
+    crossorigin="anonymous" />
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:300&display=swap" rel="stylesheet">
+  <!-- <link href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" rel="stylesheet"> -->
+  <link href="/static/style.css" rel="stylesheet">
+  {% block head %}{% endblock %}
+</head>
+<body>
+  <div class="container">
+    <h3>Expense Manager</h3>
+    {% include "flash.html" %}
+  </div>
+
+  {% block body %}{% endblock %}
+</body>

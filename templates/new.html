@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block title %}New Expense{% endblock %}
+{% block content %}
+  <form action="/new" method="POST" id="newExpForm">
+    <div class="row">
+      <div class="three columns">
+        <label for="name">Name</label>
+	<input type="text" class="u-full-width" id="name" name="name"></input>
+      </div>
+      <div class="four columns">
+        <label for="amount">Amount</label>
+        <span>
+          {{ g.user.currsym }}
+          <input type="number" min="0" max="1000000" step="0.01" id="amount" name="amount"></input>
+        </span>
+      </div>
+    </div>
+    <div class="row">
+      <div class="three columns">
+        <label for="date">Date</label>
+	<input type="date" class="u-full-width" id="date" name="date"
+          min="{{ startdate }}" max="{{ enddate }}">
+        </input>
+      </div>
+      <div class="three columns">
+        <label for="category">Category</label>
+        <select class="u-full-width" id="category" name="category">
+          <option value="" disabled selected>-- Select --</option>
+          {% for c in allcategories %}
+            <option value="{{ c }}">{{ c }}</option>
+          {% endfor %}
+        </select>
+      </div>
+    </div>
+    <div class="row">
+      <div class="eight columns">&nbsp;</div>
+      <div class="two columns">
+        <input type="button" onclick="this.form.reset()" value="reset"
+          class="u-full-width">
+        </input>
+      </div>
+      <div class="two columns">
+        <input type="submit" value="create"
+          class="button-primary u-full-width">
+        </input>
+      </div>
+    </div>
+  </form>
+{% endblock %}
