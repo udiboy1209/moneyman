@@ -26,9 +26,9 @@
       </div>
       <div class="three columns">
         <label for="category">Category</label>
-        <select class="u-full-width" id="category" name="category" value="{{ exp.category }}">
+        <select class="u-full-width" id="category" name="category">
           {% for c in allcategories %}
-            <option value="{{ c }}">{{ c }}</option>
+            <option value="{{ c }}" {% if c == exp.category %}selected{% endif %}>{{ c }}</option>
           {% endfor %}
         </select>
       </div>

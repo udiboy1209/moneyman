@@ -8,7 +8,7 @@ import re
 import os
 
 DATEFMT = '{year:d}-{month:02d}-{date:02d}'
-TODAY = date.today()
+TODAY = date.today
 ALLCATEGORIES = ['Food', 'Entertainment', 'Travel', 'Utilities',
                  'Groceries', 'Rent', 'Family']
 ALLYEARS = [2019, 2020]
@@ -42,7 +42,7 @@ class ExpensesDAO:
         if name:
             words = name.split(' ')
             for w in words:
-                query = query & (exp.name.matches(w, flags=re.IGNORECASE))
+                query = query & (exp.name.search(w, flags=re.IGNORECASE))
         if year:
             query = query & (exp.year == int(year))
         if month:
@@ -240,7 +240,7 @@ def newexp():
     data = {
             'allcategories': ALLCATEGORIES,
             'startdate': '{:d}-01-01'.format(ALLYEARS[0]),
-            'enddate': TODAY.strftime('%Y-%m-%d'),
+            'enddate': TODAY().strftime('%Y-%m-%d'),
            }
     if request.method == 'POST':
         ver, val = verifyparams(request.form)
@@ -263,7 +263,7 @@ def updexp(doc_id):
     data = {
             'allcategories': ALLCATEGORIES,
             'startdate': '{:d}-01-01'.format(ALLYEARS[0]),
-            'enddate': TODAY.strftime('%Y-%m-%d'),
+            'enddate': TODAY().strftime('%Y-%m-%d'),
             'exp': exp,
            }
     return render_template('update.html', **data)
