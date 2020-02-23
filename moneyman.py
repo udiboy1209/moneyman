@@ -146,21 +146,37 @@ def getparams(args):
     return params
 
 def verifyparams(form):
-    keys = ['name', 'amount', 'category', 'date']
-    for k in keys:
-        if k not in form:
-            return (False, "'%s' is missing" % k)
-        if len(form[k]) == 0:
-            return (False, "'%s' is empty" % k)
-
-    if form['category'] not in ALLCATEGORIES:
-        return (False, "Invalid category '%s'" % form['category'])
+    if 'date' not in form or len(form['date']) == 0:
+        return (False, "'date' is missing")
 
     year = int(form['date'].split('-')[0])
     if year not in ALLYEARS:
         return (False, "Invalid year '%s'" % form['date'])
 
-    return (True, None)
+    names = form.getlist('name')
+    amounts = form.getlist('amount')
+    categories = form.getlist('category')
+
+    items = []
+    for n,a,c in zip(names, amounts, categories):
+        n = n.strip()
+        if len(n) == 0 or len(a) == 0 or len(c) == 0:
+            continue
+        if c not in ALLCATEGORIES:
+            return (False, "Invalid category '%s'" % form['category'])
+
+        single = {
+            'name': n,
+            'category': c,
+            'amount': a,
+            'date': form['date']
+        }
+        items.append(single)
+
+    if len(items) == 0:
+        return (False, 'Fields are missing')
+
+    return (True, items)
 
 app = Flask('MoneyMan')
 app.config.from_object(DevelopmentConfig())
@@ -243,17 +259,19 @@ def newexp():
             'enddate': TODAY().strftime('%Y-%m-%d'),
            }
     if request.method == 'POST':
+        print(request.form)
         ver, val = verifyparams(request.form)
         if not ver:
             flash(val, 'error')
         else:
-            doc_id = g.expdao.create(request.form)
-            if not doc_id:
-                flash('Could not create entry', 'error')
+            for item in val:
+                doc_id = g.expdao.create(item)
+                if not doc_id:
+                    flash('Could not create entry', 'error')
+                    break
             else:
-                flash('Successfully created', 'success')
-                return redirect(url_for('single', doc_id=doc_id))
-
+                flash('Successfully created %d entries' % len(val), 'success')
+                return redirect(url_for('home'))
     return render_template('new.html', **data)
 
 @app.route('/update/<int:doc_id>', methods=['GET'])
@@ -275,8 +293,10 @@ def updexp_submit():
     ver, val = verifyparams(request.form)
     if not ver:
         flash(val, 'error')
+    elif len(val) > 1:
+        flash('Too many items', 'error')
     else:
-        success = g.expdao.update(doc_id, request.form)
+        success = g.expdao.update(doc_id, val[0])
         if not success:
             flash('Could not update entry', 'error')
         else:

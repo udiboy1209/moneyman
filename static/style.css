@@ -89,3 +89,11 @@ input[type="date"] {
   color: green;
 }
 
+.symbol {
+  width: 40px;
+  height: 40px;
+  border-radius: 20px;
+  padding: 0px 0px;
+  font-size: 20px;
+}
+

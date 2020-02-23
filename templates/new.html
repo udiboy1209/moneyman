@@ -3,37 +3,15 @@
 {% block content %}
   <form action="/new" method="POST" id="newExpForm">
     <div class="row">
-      <div class="three columns">
-        <label for="name">Name</label>
-	<input type="text" class="u-full-width" id="name" name="name"></input>
-      </div>
-      <div class="four columns">
-        <label for="amount">Amount</label>
-        <span>
-          {{ g.user.currsym }}
-          <input type="number" min="0" max="1000000" step="0.01" id="amount" name="amount"></input>
-        </span>
-      </div>
-    </div>
-    <div class="row">
+      <div class="one columns">&nbsp;</div>
       <div class="three columns">
         <label for="date">Date</label>
 	<input type="date" class="u-full-width" id="date" name="date"
           min="{{ startdate }}" max="{{ enddate }}">
         </input>
+        <input type="hidden" id="items" name="items" value="1"></input>
       </div>
-      <div class="three columns">
-        <label for="category">Category</label>
-        <select class="u-full-width" id="category" name="category">
-          <option value="" disabled selected>-- Select --</option>
-          {% for c in allcategories %}
-            <option value="{{ c }}">{{ c }}</option>
-          {% endfor %}
-        </select>
-      </div>
-    </div>
-    <div class="row">
-      <div class="eight columns">&nbsp;</div>
+      <div class="four columns">&nbsp;</div>
       <div class="two columns">
         <input type="button" onclick="this.form.reset()" value="reset"
           class="u-full-width">
@@ -45,5 +23,94 @@
         </input>
       </div>
     </div>
+
+    <div class="row">
+      <div class="one columns">&nbsp;</div>
+      <div class="three columns">
+        <label for="name">Name</label>
+      </div>
+      <div class="four columns">
+        <label for="amount">Amount</label>
+      </div>
+      <div class="three columns">
+        <label for="category">Category</label>
+      </div>
+      <div class="one columns">
+        <a onclick="addRow()" class="symbol button button-primary">+</a>
+      </div>
+    </div>
+    <div class="row">
+      <div class="one columns">
+        &nbsp;
+      </div>
+      <div class="three columns">
+	<input type="text" class="u-full-width" id="name" name="name"></input>
+      </div>
+      <div class="four columns">
+        <span>
+          {{ g.user.currsym }}
+          <input type="number" min="0" max="1000000" step="0.01" id="amount" name="amount"></input>
+        </span>
+      </div>
+      <div class="three columns">
+        <select class="u-full-width" id="category" name="category">
+          <option value="" disabled selected>-- Select --</option>
+          {% for c in allcategories %}
+            <option value="{{ c }}">{{ c }}</option>
+          {% endfor %}
+        </select>
+      </div>
+    </div>
   </form>
+{% endblock %}
+{% block scripts %}
+  <script type="text/javascript">
+    function htmlToElement(html) {
+      var template = document.createElement('template');
+      html = html.trim(); // Never return a text node of whitespace as the result
+      template.innerHTML = html;
+      return template.content.firstChild;
+    }
+
+    function removeRow(btn) {
+      var row = btn.parentElement.parentElement
+      row.parentElement.removeChild(row)
+    }
+
+    function addRow() {
+      const rowHTML = `
+<div class="row">
+  <div class="one columns">
+    <a onclick="removeRow(this)" class="symbol button">x</a>
+  </div>
+  <div class="three columns">
+    <input type="text" class="u-full-width" id="name" name="name"></input>
+  </div>
+  <div class="four columns">
+    <span>
+      {{ g.user.currsym }}
+      <input type="number" min="0" max="1000000" step="0.01" id="amount" name="amount"></input>
+    </span>
+  </div>
+  <div class="three columns">
+    <select class="u-full-width" id="category" name="category">
+      <option value="" disabled selected>-- Select --</option>
+      {% for c in allcategories %}
+        <option value="{{ c }}">{{ c }}</option>
+      {% endfor %}
+    </select>
+  </div>
+</div>
+        `;
+
+      var newRow = htmlToElement(rowHTML);
+      console.log(newRow);
+      var itemsDiv = document.getElementById('newExpForm');
+      var itemsField = document.getElementById('items');
+      var itemIdx = Number.valueOf(itemsField.value) + 1;
+      itemsField.value = itemIdx;
+      // newRow.getElementsByTagName('label').index.innerHTML = itemIdx;
+      itemsDiv.appendChild(newRow);
+    }
+  </script>
 {% endblock %}
