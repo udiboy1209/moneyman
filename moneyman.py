@@ -234,7 +234,6 @@ def home():
             'allcategories': ALLCATEGORIES,
             'allyears': ALLYEARS,
             'expenses': exps.sorted(),
-            'total': exps.total(),
            }
     return render_template('home.html', **data)
 

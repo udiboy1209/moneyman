@@ -61,16 +61,17 @@
         <td>&nbsp;</td>
         <td class="expense-name"><b>Total</b></td>
         <td>&nbsp;</td>
-        <td><em>{{ g.user.currsym }}{{ total|currency }}</em></td>
+        <td><b><em>{{g.user.currsym}}{{ expenses|sum(attribute="amount")|currency }}</em></b></td>
       </tr>
       {% for datestr,expgroup in expenses|groupby('datestr')|reverse %}
         <tr class="highlight">
-          <td colspan="4"><b>{{ datestr }}</b></td>
+          <td colspan="3"><b>{{ datestr }}</b></td>
+          <td><b><em>{{g.user.currsym}}{{ expgroup|sum(attribute="amount")|currency }}</em></b></td>
         </tr>
         {% for exp in expgroup %}
           <tr id="{{ exp.doc_id }}" onclick="opensingle(this.id)">
             <td>&nbsp;</td>
-            <td class="expense-name"><b>{{ exp.name }}</b></td>
+            <td class="expense-name">{{ exp.name }}</td>
             <td class="expense-category {{ exp.category|lower }}">{{ exp.category }}</td>
             <td><em>{{ g.user.currsym }}{{ exp.amount|currency }}</em></td>
           </tr>

@@ -27,7 +27,8 @@ body {
 }
 
 .expense-table tr.highlight td {
-  color: grey;
+  background-color: #eeeeee;
+  font-weight: bold;
   border-bottom: 2px solid darkgrey;
 }
 
