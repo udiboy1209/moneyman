@@ -22,7 +22,7 @@
         <label for="monthFilter">Month</label>
         <select class="u-full-width" id="monthFilter" name="month">
           <option value="">None</option>
-          {% for i in range(1,12) %}
+          {% for i in range(1,13) %}
             <option value="{{ i }}">{{ i|monthname }}</option>
           {% endfor %}
         </select>
