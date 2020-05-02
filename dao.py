@@ -4,10 +4,11 @@ from datetime import date
 import time
 import re
 import os
+from itertools import groupby
 
 from constants import DATEFMT
 
-class RecordsList:
+class RecordsList(object):
     def __init__(self, records):
         self.records = records
         for r in self.records:
@@ -16,8 +17,13 @@ class RecordsList:
     def data(self):
         return self.records
 
-    def sorted(self):
-        return sorted(self.records, key=lambda x: -x['ts'])
+    def sorted(self, key='ts'):
+        return sorted(self.records, key=lambda x: x[key])
+
+    def grouped(self, key='category'):
+        grouping = groupby(self.sorted(key=key), key=lambda x: x[key])
+        return [(k, self.__class__(list(g))) for k,g in grouping]
+
 
 class ExpenseList(RecordsList):
     def __init__(self, records):

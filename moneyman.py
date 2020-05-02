@@ -3,6 +3,10 @@ from flask import Flask, request, session, g, abort, render_template, redirect, 
 import calendar
 from datetime import date
 import os
+from itertools import groupby
+import json
+
+from constants import CHARTCOLOR_BYCAT
 
 from dao import UsersDAO
 
@@ -64,7 +68,8 @@ if 'MONEYMAN_CONFIG' in os.environ:
     app.config.from_envvar('MONEYMAN_CONFIG')
 
 # Custom filters
-app.jinja_env.filters['monthname'] = lambda i: calendar.month_name[i]
+monthname = lambda i: calendar.month_name[i]
+app.jinja_env.filters['monthname'] = monthname
 app.jinja_env.filters['currency'] = lambda c: '{:20,.2f}'.format(c)
 
 usersdao = UsersDAO(app.config['DBPATH'])
@@ -113,7 +118,7 @@ def home():
     data = {
             'allcategories': ALLCATEGORIES,
             'allyears': ALLYEARS,
-            'expenses': exps.sorted(),
+            'expenses': list(reversed(exps.sorted())),
            }
     return render_template('moneyman/home.html', **data)
 
@@ -189,6 +194,36 @@ def delexp():
     g.expdao.delete(doc_id)
     flash('Successfully deleted', 'success')
     return redirect(url_for('home'))
+
+@app.route('/summary')
+@logged_in
+def summary():
+    exps = g.expdao.query()
+    groupedexps = {}
+    labels = []
+    labelsdone = False
+    for year, yearexps in exps.grouped('year'):
+        for month, monthexps in yearexps.grouped('month'):
+            labels.append("%s %s" % (monthname(month), str(year)))
+
+            catwise = dict(zip(ALLCATEGORIES, [0]*len(ALLCATEGORIES)))
+            for cat, catexps in monthexps.grouped('category'):
+                catwise[cat] = catexps.total()
+            for cat in catwise:
+                if cat not in groupedexps:
+                    groupedexps[cat] = {
+                            "label": cat,
+                            "data": [],
+                            "backgroundColor": CHARTCOLOR_BYCAT[cat]
+                    }
+                groupedexps[cat]["data"].append(catwise[cat])
+
+    chart_data = {
+        'labels': labels,
+        'datasets': list(groupedexps.values()),
+    }
+
+    return render_template('moneyman/summary.html', chart_data=json.dumps(chart_data))
 
 @app.route('/api/query')
 @logged_in
