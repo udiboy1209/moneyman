@@ -1,4 +1,5 @@
-from moneyman import app
+from moneyman import app as moneyman_app
+from portfolio import app as portfolio_app
 
 if __name__ == "__main__":
-    app.run()
+    moneyman_app.run()
