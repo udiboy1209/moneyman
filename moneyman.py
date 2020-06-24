@@ -12,7 +12,7 @@ from dao import UsersDAO
 
 TODAY = date.today
 ALLCATEGORIES = ['Food', 'Entertainment', 'Travel', 'Utilities',
-                 'Groceries', 'Rent', 'Family']
+                 'Groceries', 'Rent', 'Family', 'Personal']
 ALLYEARS = [2019, 2020]
 
 class DevelopmentConfig:

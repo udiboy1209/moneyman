@@ -60,6 +60,10 @@ body {
   color: orange;
   border-bottom-color: orange;
 }
+.expense-category.personal {
+  color: lightblue;
+  border-bottom-color: lightblue;
+}
 
 input {
   font-family: "Montserrat", sans-serif;

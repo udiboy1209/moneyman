@@ -9,4 +9,5 @@ CHARTCOLOR_BYCAT = {
     'Utilities':'rgba( 0, 172, 193 , 0.6)', # red 'darkcyan',
     'Family':'rgba( 255, 160, 0 , 0.6)', # red 'orange',
     'Travel':'rgba( 126, 87, 194 , 0.6)', # red 'purple',
+    'Personal': 'rgba( 128, 128, 255)', # light blue
 }
