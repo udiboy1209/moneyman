@@ -4,7 +4,7 @@
 {% endblock %}
 {% block body %}
   <div class="container">
-    <form action="/login" method="POST">
+	  <form action="{{ url_for('login') }}" method="POST">
       <div class="row">
         <div column="six columns">
           <label for="username">Username</label>

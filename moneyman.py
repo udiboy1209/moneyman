@@ -240,4 +240,3 @@ def api_single(doc_id=0):
         return exp
     else:
         abort(404)
-
