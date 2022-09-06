@@ -1,7 +1,7 @@
 {% extends "moneyman/base.html" %}
 {% block title %}Update Expense{% endblock %}
 {% block content %}
-  <form action="{{ url_for('updexp') }}" method="POST" id="newExpForm">
+  <form action="{{ url_for('updexp_submit') }}" method="POST" id="newExpForm">
     <div class="row">
       <div class="three columns">
         <label for="name">Name</label>
