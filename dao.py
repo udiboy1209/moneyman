@@ -65,7 +65,13 @@ class ExpensesDAO:
 
     def create(self, params):
         date = params['date'].split('-')
-        year, month, day = tuple([int(d) for d in date])
+        if len(date) == 3:
+            year, month, day = tuple([int(d) for d in date])
+        elif len(date) == 2:
+            year, month = tuple([int(d) for d in date])
+            day = 1
+        else:
+            raise Exception("Date format wrong, expecting yyyy-mm or yyyy-mm-dd: %s" % params["date"])
         ts = int(time.mktime((year, month, day, 0,0,0,0,0,0)))
         newexp = {
             'name': params['name'],
@@ -81,7 +87,13 @@ class ExpensesDAO:
 
     def update(self, doc_id, params):
         date = params['date'].split('-')
-        year, month, day = tuple([int(d) for d in date])
+        if len(date) == 3:
+            year, month, day = tuple([int(d) for d in date])
+        elif len(date) == 2:
+            year, month = tuple([int(d) for d in date])
+            day = 1
+        else:
+            raise Exception("Date format wrong, expecting yyyy-mm or yyyy-mm-dd: %s" % params["date"])
         ts = int(time.mktime((year, month, day, 0,0,0,0,0,0)))
         newexp = {
             'name': params['name'],

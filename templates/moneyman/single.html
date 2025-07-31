@@ -15,6 +15,10 @@
     <td>{{ g.user.currsym }}{{ exp.amount }}</td>
   </tr>
   <tr>
+    <th>Source</th>
+    <td class="expense-source">{{ exp.source }}</td>
+  </tr>
+  <tr>
     <th>Category</th>
     <td class="expense-category {{ exp.category|lower }}">{{ exp.category }}</td>
   </tr>

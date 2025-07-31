@@ -1,5 +1,6 @@
 
-DATEFMT = '{year:d}-{month:02d}-{date:02d}'
+#DATEFMT = '{year:d}-{month:02d}-{date:02d}'
+DATEFMT = '{year:d}/{month:02d}'
 
 CHARTCOLOR_BYCAT = {
     'Food': 'rgba(239, 83, 80, 0.6)', # red

@@ -19,9 +19,8 @@
     </div>
     <div class="row">
       <div class="three columns">
-        <label for="date">Date</label>
-	<input type="date" class="u-full-width" id="date" name="date"
-            min="{{ startdate }}" max="{{ enddate }}" value="{{ exp.datestr }}">
+        <label for="date">Month</label>
+        <input type="month" class="u-full-width" id="date" name="date">
         </input>
       </div>
       <div class="three columns">
@@ -29,6 +28,14 @@
         <select class="u-full-width" id="category" name="category">
           {% for c in allcategories %}
             <option value="{{ c }}" {% if c == exp.category %}selected{% endif %}>{{ c }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="three columns">
+        <label for="category">Source</label>
+        <select class="u-full-width" id="source" name="source">
+          {% for c in allsources %}
+            <option value="{{ c }}" {% if c == exp.source %}selected{% endif %}>{{ c }}</option>
           {% endfor %}
         </select>
       </div>

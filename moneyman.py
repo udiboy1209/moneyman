@@ -145,8 +145,6 @@ def newexp():
     data = {
             'allcategories': ALLCATEGORIES,
             'allsources': ALLSOURCES,
-            'startdate': '{:d}-01-01'.format(ALLYEARS[0]),
-            'enddate': TODAY().strftime('%Y-%m-%d'),
            }
     if request.method == 'POST':
         ver, val = verifyparams(request.form)
@@ -170,8 +168,6 @@ def updexp(doc_id):
     data = {
             'allcategories': ALLCATEGORIES,
             'allsources': ALLSOURCES,
-            'startdate': '{:d}-01-01'.format(ALLYEARS[0]),
-            'enddate': TODAY().strftime('%Y-%m-%d'),
             'exp': exp,
            }
     return render_template('moneyman/update.html', **data)
