@@ -13,6 +13,7 @@ from dao import UsersDAO
 TODAY = date.today
 ALLCATEGORIES = ['Food', 'Entertainment', 'Travel', 'Utilities',
                  'Groceries', 'Rent', 'Family', 'Personal']
+ALLSOURCES = ['Meet', 'Himani', 'Common']
 ALLYEARS = [2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026]
 
 class DevelopmentConfig:
@@ -40,19 +41,23 @@ def verifyparams(form):
     names = form.getlist('name')
     amounts = form.getlist('amount')
     categories = form.getlist('category')
+    sources = form.getlist('source')
 
     items = []
-    for n,a,c in zip(names, amounts, categories):
+    for n,a,c,s in zip(names, amounts, categories, sources):
         n = n.strip()
         if len(n) == 0 or len(a) == 0 or len(c) == 0:
             continue
         if c not in ALLCATEGORIES:
-            return (False, "Invalid category '%s'" % form['category'])
+            return (False, "Invalid category '%s'" % c)
+        if s not in ALLSOURCES:
+            return (False, "Invalid source '%s'" % s)
 
         single = {
             'name': n,
             'category': c,
             'amount': a,
+            'source': s,
             'date': form['date']
         }
         items.append(single)
@@ -92,7 +97,6 @@ def logged_in(f):
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        print(request.form)
         user = usersdao.verify(request.form)
         if user:
             session['username'] = user['username']
@@ -118,6 +122,7 @@ def home():
     data = {
             'allcategories': ALLCATEGORIES,
             'allyears': ALLYEARS,
+            'allsources': ALLSOURCES,
             'expenses': list(reversed(exps.sorted())),
            }
     return render_template('moneyman/home.html', **data)
@@ -139,11 +144,11 @@ def single(doc_id=0):
 def newexp():
     data = {
             'allcategories': ALLCATEGORIES,
+            'allsources': ALLSOURCES,
             'startdate': '{:d}-01-01'.format(ALLYEARS[0]),
             'enddate': TODAY().strftime('%Y-%m-%d'),
            }
     if request.method == 'POST':
-        print(request.form)
         ver, val = verifyparams(request.form)
         if not ver:
             flash(val, 'error')
@@ -164,6 +169,7 @@ def updexp(doc_id):
     exp = g.expdao.single(doc_id)
     data = {
             'allcategories': ALLCATEGORIES,
+            'allsources': ALLSOURCES,
             'startdate': '{:d}-01-01'.format(ALLYEARS[0]),
             'enddate': TODAY().strftime('%Y-%m-%d'),
             'exp': exp,

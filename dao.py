@@ -36,7 +36,7 @@ class ExpensesDAO:
     def __init__(self, dbpath):
         self.db = TinyDB(dbpath)
 
-    def query(self, name=None, year=None, month=None, day=None, category=None):
+    def query(self, name=None, year=None, month=None, day=None, category=None, source=None):
         exp = Query()
         query = exp.name.exists()
         if name:
@@ -51,8 +51,9 @@ class ExpensesDAO:
             query = query & (exp.date == int(day))
         if category:
             query = query & (exp.category == category)
+        if source:
+            query = query & (exp.source == source)
 
-        print(query)
         records = self.db.search(query)
         return ExpenseList(records)
 
@@ -69,6 +70,7 @@ class ExpensesDAO:
         newexp = {
             'name': params['name'],
             'category': params['category'],
+            'source': params['source'],
             'amount': float(params['amount']),
             'year': year,
             'month': month,
@@ -84,6 +86,7 @@ class ExpensesDAO:
         newexp = {
             'name': params['name'],
             'category': params['category'],
+            'source': params['source'],
             'amount': float(params['amount']),
             'year': year,
             'month': month,
