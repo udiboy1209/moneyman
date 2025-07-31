@@ -88,7 +88,7 @@
         total += Number(item.value);
       })
 
-      totalLabel.innerHTML = "Amount: {{ g.user.currsym }}" + total;
+      totalLabel.innerHTML = "Amount: {{ g.user.currsym }}" + total.toFixed(2);
     }
 
     function removeRow(btn) {
