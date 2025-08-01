@@ -36,6 +36,15 @@
           {% endfor %}
         </select>
       </div>
+      <div class="three columns">
+        <label for="sourceFilter">Source</label>
+        <select class="u-full-width" id="sourceFilter" name="source">
+          <option value="">None</option>
+          {% for c in allsources %}
+            <option value="{{ c }}">{{ c }}</option>
+          {% endfor %}
+        </select>
+      </div>
     </div>
     <div class="row">
       <div class="eight columns">&nbsp;</div>

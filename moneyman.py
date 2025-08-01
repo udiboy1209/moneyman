@@ -26,7 +26,7 @@ class DevelopmentConfig:
 def getparams(args):
     params = dict([
             (key, args.get(key, None))
-            for key in ['name', 'year', 'month', 'day', 'category']
+            for key in ['name', 'year', 'month', 'day', 'category', 'source']
         ])
     return params
 
